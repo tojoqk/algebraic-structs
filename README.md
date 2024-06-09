@@ -91,7 +91,7 @@ $ chicken-install
         (prefix (data optional monad) opt:))
 
 ;; (opt:map (lambda (x) (* x x)) (opt:pure 5)) => (some 25)
-;; (opt:map (lambda (x) (* x x)) (opt:none)) => (some 25)
+;; (opt:map (lambda (x) (* x x)) (opt:none)) => (none)
 
 ;; (opt:map* + (opt:pure 1) (opt:pure 2) (opt:pure 3)) => (some 6)
 ;; (opt:map* + (opt:pure 1) (opt:none) (opt:pure 3)) => (none)
