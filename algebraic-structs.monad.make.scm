@@ -14,11 +14,14 @@
           (foldr (lambda (binding acc)
                    (match binding
                      [(var stx expr)
-                      (if (and (symbol? stx) (compare stx '<-))
+                      (if (and (symbol? var)
+                               (symbol? stx)
+                               (compare stx '<-))
                           `(>>= ,expr (lambda (,var) ,acc))
                           `(>>= ,binding (lambda (_) ,acc)))]
                      [(let-stx var =-stx expr)
-                      (cond ((and (symbol? let-stx) (compare let-stx (inject 'let))
+                      (cond ((and (symbol? var)
+                                  (symbol? let-stx) (compare let-stx (inject 'let))
                                   (symbol? =-stx) (compare =-stx (inject '=)))
                              `((lambda (,var) ,acc) ,expr))
                             (else
