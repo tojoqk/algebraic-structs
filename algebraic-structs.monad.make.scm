@@ -14,7 +14,7 @@
           (foldr (lambda (binding acc)
                    (match binding
                      [(var stx expr)
-                      (if (and (symbol? stx) (compare stx (inject '<-)))
+                      (if (and (symbol? stx) (compare stx '<-))
                           `(>>= ,expr (lambda (,var) ,acc))
                           `(>>= ,binding (lambda (_) ,acc)))]
                      [(let-stx var =-stx expr)
