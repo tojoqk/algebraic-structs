@@ -1,5 +1,5 @@
-(module (algebraic-structs monoid number product base) (op id)
+(module (algebraic-structs monoid number product base) (op unit)
   (import scheme)
 
   (define op *)
-  (define id 1))
+  (define unit 1))

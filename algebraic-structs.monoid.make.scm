@@ -1,3 +1,3 @@
-(functor ((algebraic-structs monoid make) (F (op id)))
-    (op id)
+(functor ((algebraic-structs monoid make) (F (op unit)))
+    (op unit)
   (import F))
