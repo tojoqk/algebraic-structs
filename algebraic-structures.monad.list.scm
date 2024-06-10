@@ -1,5 +1,5 @@
-(import (only (algebraic-structs monad make)))
-(import (only (algebraic-structs monad list base)))
+(import (only (algebraic-structures monad make)))
+(import (only (algebraic-structures monad list base)))
 
-(module (algebraic-structs monad list) =
-  ((algebraic-structs monad make) (algebraic-structs monad list base)))
+(module (algebraic-structures monad list) =
+  ((algebraic-structures monad make) (algebraic-structures monad list base)))

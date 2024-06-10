@@ -46,13 +46,13 @@
       [($ opt:<some> x) (f x)]
       [($ opt:<none>) (opt:none)])))
 
-(import (only (algebraic-structs functor make))
-        (only (algebraic-structs applicative make))
-        (only (algebraic-structs monad make)))
+(import (only (algebraic-structures functor make))
+        (only (algebraic-structures applicative make))
+        (only (algebraic-structures monad make)))
 
-(module (data optional functor) = ((algebraic-structs functor make) (data optional monad base)))
-(module (data optional applicative) = ((algebraic-structs applicative make) (data optional monad base)))
-(module (data optional monad) = ((algebraic-structs monad make) (data optional monad base)))
+(module (data optional functor) = ((algebraic-structures functor make) (data optional monad base)))
+(module (data optional applicative) = ((algebraic-structures applicative make) (data optional monad base)))
+(module (data optional monad) = ((algebraic-structures monad make) (data optional monad base)))
 
 (import (prefix (data optional) opt:)
         (prefix (data optional functor) opt:)

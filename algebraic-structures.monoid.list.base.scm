@@ -1,4 +1,4 @@
-(module (algebraic-structs monoid list base) (op unit)
+(module (algebraic-structures monoid list base) (op unit)
   (import scheme)
 
   (define op append)

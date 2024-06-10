@@ -1,5 +1,5 @@
-(import (only (algebraic-structs monoid number sum base)))
-(import (only (algebraic-structs monoid make)))
+(import (only (algebraic-structures monoid number sum base)))
+(import (only (algebraic-structures monoid make)))
 
-(module (algebraic-structs monoid number sum) = ((algebraic-structs monoid make)
-                                                 (algebraic-structs monoid number sum base)))
+(module (algebraic-structures monoid number sum) = ((algebraic-structures monoid make)
+                                                    (algebraic-structures monoid number sum base)))

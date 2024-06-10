@@ -35,12 +35,12 @@
                    [(x* . st**) ((f x) st*)])
         (cons x* st**)))))
 
-(import (only (algebraic-structs functor make))
-        (only (algebraic-structs applicative make))
-        (only (algebraic-structs monad make)))
-(module (data state functor) = ((algebraic-structs functor make) (data state)))
-(module (data state applicative) = ((algebraic-structs applicative make) (data state)))
-(module (data state monad) = ((algebraic-structs monad make) (data state)))
+(import (only (algebraic-structures functor make))
+        (only (algebraic-structures applicative make))
+        (only (algebraic-structures monad make)))
+(module (data state functor) = ((algebraic-structures functor make) (data state)))
+(module (data state applicative) = ((algebraic-structures applicative make) (data state)))
+(module (data state monad) = ((algebraic-structures monad make) (data state)))
 
 (import (prefix (data state) st:)
         (prefix (data state functor) st:)

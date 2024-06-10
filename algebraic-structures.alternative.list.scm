@@ -1,5 +1,5 @@
-(import (only (algebraic-structs alternative make)))
-(import (only (algebraic-structs alternative list base)))
+(import (only (algebraic-structures alternative make)))
+(import (only (algebraic-structures alternative list base)))
 
-(module (algebraic-structs alternative list) =
-  ((algebraic-structs alternative make) (algebraic-structs alternative list base)))
+(module (algebraic-structures alternative list) =
+  ((algebraic-structures alternative make) (algebraic-structures alternative list base)))

@@ -1,5 +1,5 @@
-(import (only (algebraic-structs foldable list base)))
-(import (only (algebraic-structs foldable make)))
+(import (only (algebraic-structures foldable list base)))
+(import (only (algebraic-structures foldable make)))
 
-(module (algebraic-structs foldable list) = ((algebraic-structs foldable make)
-                                             (algebraic-structs foldable list base)))
+(module (algebraic-structures foldable list) = ((algebraic-structures foldable make)
+                                                (algebraic-structures foldable list base)))

@@ -1,5 +1,5 @@
-(import (only (algebraic-structs functor list base)))
-(import (only (algebraic-structs functor make)))
+(import (only (algebraic-structures functor list base)))
+(import (only (algebraic-structures functor make)))
 
-(module (algebraic-structs functor list) = ((algebraic-structs functor make)
-                                            (algebraic-structs functor list base)))
+(module (algebraic-structures functor list) = ((algebraic-structures functor make)
+                                               (algebraic-structures functor list base)))

@@ -1,4 +1,4 @@
-(module (algebraic-structs functor vector base) (map)
+(module (algebraic-structures functor vector base) (map)
   (import (rename scheme (map list-map))
           (only (chicken base) add1))
 

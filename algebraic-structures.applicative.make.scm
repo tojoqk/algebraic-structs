@@ -1,4 +1,4 @@
-(functor ((algebraic-structs applicative make) (A (pure map map2)))
+(functor ((algebraic-structures applicative make) (A (pure map map2)))
     (pure map map2 map* apply)
   (import (rename scheme (map scheme:map) (apply scheme:apply))
           (only (chicken base) sub1 add1 foldl case-lambda)

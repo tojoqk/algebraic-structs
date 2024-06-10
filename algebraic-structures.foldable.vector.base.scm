@@ -1,4 +1,4 @@
-(module (algebraic-structs foldable vector base) (foldl foldr)
+(module (algebraic-structures foldable vector base) (foldl foldr)
   (import scheme
           (only (chicken base) add1 sub1))
 

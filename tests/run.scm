@@ -1,19 +1,19 @@
 (import (chicken load) (test))
 
-(test-begin "algebraic-structs")
+(test-begin "algebraic-structures")
 
-(import (prefix (algebraic-structs monoid list) list:))
+(import (prefix (algebraic-structures monoid list) list:))
 
-(import (only (algebraic-structs monoid make fold)))
-(import (prefix (algebraic-structs foldable list) list:))
-(import (prefix (algebraic-structs foldable vector) vector:))
-(import (prefix (algebraic-structs monoid number sum) sum:))
-(import (prefix (algebraic-structs monoid number product) product:))
+(import (only (algebraic-structures monoid make fold)))
+(import (prefix (algebraic-structures foldable list) list:))
+(import (prefix (algebraic-structures foldable vector) vector:))
+(import (prefix (algebraic-structures monoid number sum) sum:))
+(import (prefix (algebraic-structures monoid number product) product:))
 
-(import (prefix (algebraic-structs functor list) list:))
-(import (prefix (algebraic-structs applicative list) list:))
-(import (prefix (algebraic-structs monad list) list:))
-(import (prefix (algebraic-structs alternative list) list:))
+(import (prefix (algebraic-structures functor list) list:))
+(import (prefix (algebraic-structures applicative list) list:))
+(import (prefix (algebraic-structures monad list) list:))
+(import (prefix (algebraic-structures alternative list) list:))
 
 (import (prefix (only (scheme) apply) list:))
 
@@ -82,9 +82,9 @@
 
 (test-begin "monoid.sum.fold.list")
 
-(module sum-fold = ((algebraic-structs monoid make fold)
-                    (algebraic-structs monoid number sum)
-                    (algebraic-structs foldable list)))
+(module sum-fold = ((algebraic-structures monoid make fold)
+                    (algebraic-structures monoid number sum)
+                    (algebraic-structures foldable list)))
 (import (prefix sum-fold sum:))
 
 (test 15 (sum:fold '(1 2 3 4 5)))
@@ -95,9 +95,9 @@
 
 (test-begin "monoid.product.fold.vector")
 
-(module product-fold = ((algebraic-structs monoid make fold)
-                    (algebraic-structs monoid number product)
-                    (algebraic-structs foldable vector)))
+(module product-fold = ((algebraic-structures monoid make fold)
+                        (algebraic-structures monoid number product)
+                        (algebraic-structures foldable vector)))
 (import (prefix product-fold product:))
 
 (test 120 (product:fold #(1 2 3 4 5)))
@@ -151,6 +151,6 @@
 
 (test-end "alternative")
 
-(test-end "algebraic-structs")
+(test-end "algebraic-structures")
 
 (test-exit)

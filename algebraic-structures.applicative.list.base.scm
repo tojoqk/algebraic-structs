@@ -1,6 +1,6 @@
-(module (algebraic-structs applicative list base) (map pure map2)
+(module (algebraic-structures applicative list base) (map pure map2)
   (import (except scheme map)
-          (algebraic-structs functor list)
+          (algebraic-structures functor list)
           (only (chicken base) atom? cut)
           (only (srfi 1) append! reverse!)
           matchable)

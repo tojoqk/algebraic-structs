@@ -1,4 +1,4 @@
-# algebraic-structs
+# algebraic-structures
 
 Provides useful algebraic structures for programming using parameterized module.
 
@@ -7,7 +7,7 @@ Provides useful algebraic structures for programming using parameterized module.
 Run `chicken-install` in the project's root directory.
 
 ```
-$ cd algebraic-structs
+$ cd algebraic-structures
 $ chicken-install
 ```
 
