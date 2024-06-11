@@ -107,6 +107,19 @@
 
 (test-end "monoid")
 
+(test-begin "group")
+
+(import (prefix (algebraic-structures group number product) product:))
+(import (prefix (algebraic-structures group number sum) sum:))
+
+(test -9 (sum:inv 9))
+(test 9 (sum:pow 3 3))
+
+(test 1/9 (product:inv 9))
+(test 9 (product:pow 3 2))
+
+(test-end "group")
+
 (test-begin "functor")
 
 (test '((a) (b) (c)) (list:map list '(a b c)))
