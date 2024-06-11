@@ -1,5 +1,5 @@
-(module (algebraic-structures monoid list base) (op unit)
+(module (algebraic-structures monoid list base) (<> unit)
   (import scheme)
 
-  (define op append)
+  (define <> append)
   (define unit '()))

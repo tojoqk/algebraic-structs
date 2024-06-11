@@ -74,9 +74,9 @@
 
 (test-begin "monoid.list")
 
-(test '(a b c 1 2 3) (list:op '(a b c) '(1 2 3)))
-(test '(a b c x y z 1 2 3) (list:op (list:op '(a b c) '(x y z)) '(1 2 3)))
-(test '(a b c x y z 1 2 3) (list:op '(a b c) (list:op '(x y z) '(1 2 3))))
+(test '(a b c 1 2 3) (list:<> '(a b c) '(1 2 3)))
+(test '(a b c x y z 1 2 3) (list:<> (list:<> '(a b c) '(x y z)) '(1 2 3)))
+(test '(a b c x y z 1 2 3) (list:<> '(a b c) (list:<> '(x y z) '(1 2 3))))
 
 (test-end "monoid.list")
 

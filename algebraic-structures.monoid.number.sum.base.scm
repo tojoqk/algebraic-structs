@@ -1,5 +1,5 @@
-(module (algebraic-structures monoid number sum base) (op unit)
+(module (algebraic-structures monoid number sum base) (<> unit)
   (import scheme)
 
-  (define op +)
+  (define <> +)
   (define unit 0))
