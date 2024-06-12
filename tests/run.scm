@@ -2,24 +2,78 @@
 
 (test-begin "algebraic-structures")
 
-(import (prefix (algebraic-structures monoid list) list:))
+(test-begin "monoid")
 
-(import (only (algebraic-structures monoid make fold)))
-(import (prefix (algebraic-structures foldable list) list:))
-(import (prefix (algebraic-structures foldable vector) vector:))
-(import (prefix (algebraic-structures monoid number sum) sum:))
-(import (prefix (algebraic-structures monoid number product) product:))
+(import (algebraic-structures monoid make))
 
-(import (prefix (algebraic-structures functor list) list:))
-(import (prefix (algebraic-structures applicative list) list:))
-(import (prefix (algebraic-structures monad list) list:))
-(import (prefix (algebraic-structures alternative list) list:))
+(module (mod7 monoid) = (algebraic-structures monoid make)
+  (import scheme
+          (chicken module)
+          (chicken base))
+  (export <> unit)
 
-(import (prefix (only (scheme) apply) list:))
+  (define (<> x y)
+    (assert (integer? x))
+    (assert (integer? y))
+    (assert (not (zero? x)))
+    (assert (not (zero? y)))
+    (modulo (* x y) 7))
+
+  (define unit 1))
+
+(import (prefix (mod7 monoid) mod7:)
+        (srfi 1))
+
+(test 5 (mod7:<> 3 4))
+(test 1 mod7:unit)
+
+(test-end "monoid")
+
+(test-begin "group")
+
+(import (algebraic-structures group make))
+(module (mod7 group) = (algebraic-structures group make)
+  (import scheme
+          (chicken base)
+          (chicken module)
+          matchable)
+  (reexport (mod7 monoid))
+  (export inv)
+
+  (define (inv n)
+    (assert (integer? n))
+    (assert (not (zero? n)))
+    (match (modulo n 7)
+      (1 1)
+      (2 4)
+      (3 5)
+      (4 2)
+      (5 3)
+      (6 6))))
+
+(import (prefix (mod7 group) mod7:))
+
+(test (make-list 6 mod7:unit)
+      (map mod7:<>
+           '(1 2 3 4 5 6)
+           (map mod7:inv '(1 2 3 4 5 6))))
+
+(test '(3 2 6 4 5 1)
+      (map (cut mod7:pow 3 <>) '(1 2 3 4 5 6)))
+
+(test (mod7:inv 4) (mod7:pow 4 -1))
+
+(test-end "group")
 
 (test-begin "foldable")
 
-(test-begin "foldable.list")
+(import (algebraic-structures foldable make))
+
+(module (data list foldable) = (algebraic-structures foldable make)
+  (import (chicken module))
+  (reexport (only (chicken base) foldl foldr)))
+
+(import (prefix (data list foldable) list:))
 
 (test '(a b c d e) (list:foldr cons '() '(a b c d e)))
 (test '(((((() a) b) c) d) e) (list:foldl list '() '(a b c d e)))
@@ -39,94 +93,85 @@
 (test #f (list:every (cut member 'x <>) '((a b c) (d x f))))
 (test '(x f) (list:every (cut member 'x <>) '((a x c) (d x f))))
 
-
-(test '(a b c d e) (list:->list '(a b c d e)))
-
-(test-end "foldable.list")
-
-(test-begin "foldable.vector")
-
-(test '(a b c d e) (vector:foldr cons '() #(a b c d e)))
-(test '(((((() a) b) c) d) e) (vector:foldl list '() #(a b c d e)))
-
-(test 0 (vector:length #()))
-(test 5 (vector:length #(a b c d e)))
-
-(test #f (vector:find (constantly #t) #()))
-(test #f (vector:find even? #(1 3 5 7)))
-(test 4 (vector:find even? #(1 3 4 7 8)))
-
-(test #f (vector:any (constantly #t) #()))
-(test #f (vector:any (cut member 'x <>) #((a b c) (d e f))))
-(test '(x f) (vector:any (cut member 'x <>) #((a b c) (d x f))))
-
-(test #t (vector:every (constantly #f) #()))
-(test #f (vector:every (cut member 'x <>) #((a b c) (d x f))))
-(test '(x f) (vector:every (cut member 'x <>) #((a x c) (d x f))))
-
-(test '(a b c d e) (vector:->list #(a b c d e)))
-
-(test-end "foldable.vector")
-
 (test-end "foldable")
 
-(test-begin "monoid")
+(test-begin "monoid.fold")
 
-(test-begin "monoid.list")
+(module (product monoid) = (algebraic-structures monoid make)
+  (import scheme
+          (chicken base)
+          (chicken module))
+  (export <> unit)
 
-(test '(a b c 1 2 3) (list:<> '(a b c) '(1 2 3)))
-(test '(a b c x y z 1 2 3) (list:<> (list:<> '(a b c) '(x y z)) '(1 2 3)))
-(test '(a b c x y z 1 2 3) (list:<> '(a b c) (list:<> '(x y z) '(1 2 3))))
+  (define (<> x y)
+    (assert (number? x))
+    (assert (not (zero? x)))
+    (assert (number? y))
+    (assert (not (zero? y)))
+    (* x y))
 
-(test-end "monoid.list")
+  (define unit 1))
 
-(test-begin "monoid.sum.fold.list")
+(import (algebraic-structures monoid make fold))
+(module (product fold) = ((algebraic-structures monoid make fold) (product monoid) (data list foldable)))
 
-(module sum-fold = ((algebraic-structures monoid make fold)
-                    (algebraic-structures monoid number sum)
-                    (algebraic-structures foldable list)))
-(import (prefix sum-fold sum:))
+(import (prefix (product monoid) product:))
+(import (prefix (product fold) product:))
 
-(test 15 (sum:fold '(1 2 3 4 5)))
-(test 0 (sum:fold '()))
+(test 120 (product:fold '(1 2 3 4 5)))
 
-
-(test-end "monoid.sum.fold.list")
-
-(test-begin "monoid.product.fold.vector")
-
-(module product-fold = ((algebraic-structures monoid make fold)
-                        (algebraic-structures monoid number product)
-                        (algebraic-structures foldable vector)))
-(import (prefix product-fold product:))
-
-(test 120 (product:fold #(1 2 3 4 5)))
-(test 1 (product:fold #()))
-
-(test-end "monoid.product.fold.vector")
-
-(test-end "monoid")
-
-(test-begin "group")
-
-(import (prefix (algebraic-structures group number product) product:))
-(import (prefix (algebraic-structures group number sum) sum:))
-
-(test -9 (sum:inv 9))
-(test 9 (sum:pow 3 3))
-
-(test 1/9 (product:inv 9))
-(test 9 (product:pow 3 2))
-
-(test-end "group")
+(test-end "monoid.fold")
 
 (test-begin "functor")
+
+(import (algebraic-structures functor make))
+(module (data list functor) = (algebraic-structures functor make)
+  (import scheme (chicken module))
+  (export map))
+
+(import (prefix (data list functor) list:))
 
 (test '((a) (b) (c)) (list:map list '(a b c)))
 
 (test-end "functor")
 
 (test-begin "applicative")
+
+(import (algebraic-structures applicative make))
+(module (data list applicative) = (algebraic-structures applicative make)
+  (import (except scheme map)
+          (chicken module)
+          (srfi 1)
+          matchable
+          (chicken base)
+          (data list functor))
+  (reexport (data list functor))
+  (export pure map2)
+
+  (define (pure x)
+    (list x))
+
+  (define (rev-map f lst)
+    (let loop ((lst lst)
+               (acc '()))
+      (match lst
+        [() acc]
+        [(h . t)
+         (loop t (cons (f h) acc))])))
+
+  (define (product op lst1 lst2)
+    (let loop ((lst lst1)
+               (acc '()))
+      (match lst
+        [() (reverse! acc)]
+        [(h . t)
+         (loop t
+               (append! (rev-map (cut op h <>) lst2)
+                        acc))])))
+
+  (define map2 product))
+
+(import (prefix (data list applicative) list:))
 
 (test '(a) (list:pure 'a))
 
@@ -139,6 +184,19 @@
 (test-end "applicative")
 
 (test-begin "monad")
+
+(import (algebraic-structures monad make))
+(module (data list monad) = (algebraic-structures monad make)
+  (import (except scheme map)
+          (chicken module)
+          (srfi 1))
+  (reexport (data list applicative))
+  (export >>=)
+
+  (define (>>= lst f)
+    (append-map f lst)))
+
+(import (prefix (data list monad) list:))
 
 (test '((1 a) (2 a))
       (list:>>= (list:pure 'a)
@@ -156,6 +214,22 @@
 (test-end "monad")
 
 (test-begin "alternative")
+
+(import (algebraic-structures alternative make))
+(module (data list alternative) = (algebraic-structures alternative make)
+  (import (except scheme map)
+          (chicken module)
+          (chicken base)
+          (data list applicative))
+  (reexport (data list applicative))
+  (export alt empty)
+
+  (define (alt x y)
+    (append x y))
+
+  (define empty '()))
+
+(import (prefix (data list alternative) list:))
 
 (test '(9 25)
       (list:do (x <- '(2 3 4 5))
