@@ -1,4 +1,4 @@
-(functor ((algebraic-structures alternative make) (A (pure map map2 alt empty)))
+(functor ((algebraic-structures alternative) (A (pure map map2 alt empty)))
     (pure map map2 alt empty guard)
   (import (except scheme map apply)
           (only (chicken base) void)

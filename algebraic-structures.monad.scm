@@ -1,4 +1,4 @@
-(functor ((algebraic-structures monad make) (M (pure map map2 >>=)))
+(functor ((algebraic-structures monad) (M (pure map map2 >>=)))
     (pure map map2 >>= do)
   (import (rename scheme (map scheme:map) (do scheme:do))
           M)

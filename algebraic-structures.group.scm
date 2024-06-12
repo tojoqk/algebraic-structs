@@ -1,4 +1,4 @@
-(functor ((algebraic-structures group make) (M (<> unit inv)))
+(functor ((algebraic-structures group) (M (<> unit inv)))
     (<> unit inv pow)
   (import M
           scheme

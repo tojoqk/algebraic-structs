@@ -4,9 +4,9 @@
 
 (test-begin "monoid")
 
-(import (algebraic-structures monoid make))
+(import (algebraic-structures monoid))
 
-(module (mod7 monoid) = (algebraic-structures monoid make)
+(module (mod7 monoid) = (algebraic-structures monoid)
   (import scheme
           (chicken module)
           (chicken base))
@@ -31,8 +31,8 @@
 
 (test-begin "group")
 
-(import (algebraic-structures group make))
-(module (mod7 group) = (algebraic-structures group make)
+(import (algebraic-structures group))
+(module (mod7 group) = (algebraic-structures group)
   (import scheme
           (chicken base)
           (chicken module)
@@ -67,9 +67,9 @@
 
 (test-begin "foldable")
 
-(import (algebraic-structures foldable make))
+(import (algebraic-structures foldable))
 
-(module (data list foldable) = (algebraic-structures foldable make)
+(module (data list foldable) = (algebraic-structures foldable)
   (import (chicken module))
   (reexport (only (chicken base) foldl foldr)))
 
@@ -97,7 +97,7 @@
 
 (test-begin "monoid.fold")
 
-(module (product monoid) = (algebraic-structures monoid make)
+(module (product monoid) = (algebraic-structures monoid)
   (import scheme
           (chicken base)
           (chicken module))
@@ -112,8 +112,8 @@
 
   (define unit 1))
 
-(import (algebraic-structures monoid make fold))
-(module (product fold) = ((algebraic-structures monoid make fold) (product monoid) (data list foldable)))
+(import (algebraic-structures monoid fold))
+(module (product fold) = ((algebraic-structures monoid fold) (product monoid) (data list foldable)))
 
 (import (prefix (product monoid) product:))
 (import (prefix (product fold) product:))
@@ -124,8 +124,8 @@
 
 (test-begin "functor")
 
-(import (algebraic-structures functor make))
-(module (data list functor) = (algebraic-structures functor make)
+(import (algebraic-structures functor))
+(module (data list functor) = (algebraic-structures functor)
   (import scheme (chicken module))
   (export map))
 
@@ -137,8 +137,8 @@
 
 (test-begin "applicative")
 
-(import (algebraic-structures applicative make))
-(module (data list applicative) = (algebraic-structures applicative make)
+(import (algebraic-structures applicative))
+(module (data list applicative) = (algebraic-structures applicative)
   (import (except scheme map)
           (chicken module)
           (srfi 1)
@@ -185,8 +185,8 @@
 
 (test-begin "monad")
 
-(import (algebraic-structures monad make))
-(module (data list monad) = (algebraic-structures monad make)
+(import (algebraic-structures monad))
+(module (data list monad) = (algebraic-structures monad)
   (import (except scheme map)
           (chicken module)
           (srfi 1))
@@ -215,8 +215,8 @@
 
 (test-begin "alternative")
 
-(import (algebraic-structures alternative make))
-(module (data list alternative) = (algebraic-structures alternative make)
+(import (algebraic-structures alternative))
+(module (data list alternative) = (algebraic-structures alternative)
   (import (except scheme map)
           (chicken module)
           (chicken base)

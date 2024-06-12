@@ -1,4 +1,4 @@
-(functor ((algebraic-structures foldable make) (F (foldl foldr)))
+(functor ((algebraic-structures foldable) (F (foldl foldr)))
     (foldl foldr length find any every ->list)
   (import (except scheme length) F
           (only (chicken base) add1 call/cc))
