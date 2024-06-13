@@ -1,5 +1,8 @@
-(module (data state)
-    (run get put map pure map2 >>=)
+(import (algebraic-structures functor)
+        (algebraic-structures applicative)
+        (algebraic-structures monad))
+
+(module (data state) (run get put)
   (import (except scheme map)
           (only (chicken base) void assert)
           matchable)
@@ -13,12 +16,25 @@
 
   (define (put st)
     (lambda (_st)
-      (cons (void) st)))
-        
-  (define (map f m)
+      (cons (void) st))))
+
+(module (data state functor) = (algebraic-structures functor)
+  (import scheme
+          matchable
+          (chicken module))
+  (export map1)
+
+  (define (map1 f m)
     (lambda (st)
       (match-let ([(x . st*) (m st)])
-        (cons (f x) st*))))
+        (cons (f x) st*)))))
+
+(module (data state applicative) = (algebraic-structures applicative)
+  (import scheme
+          matchable
+          (chicken module))
+  (reexport (data state functor))
+  (export pure map2)
 
   (define (pure x)
     (lambda (st) (cons x st)))
@@ -27,7 +43,14 @@
     (lambda (st)
       (match-let* ([(x . st*) (m1 st)]
                    [(y . st**) (m2 st*)])
-        (cons (f x y) st**))))
+        (cons (f x y) st**)))))
+
+(module (data state monad) = (algebraic-structures monad)
+  (import (except scheme map apply)
+          matchable
+          (chicken module))
+  (reexport (data state applicative))
+  (export >>=)
 
   (define (>>= m f)
     (lambda (st)
@@ -35,16 +58,7 @@
                    [(x* . st**) ((f x) st*)])
         (cons x* st**)))))
 
-(import (only (algebraic-structures functor))
-        (only (algebraic-structures applicative))
-        (only (algebraic-structures monad)))
-(module (data state functor) = ((algebraic-structures functor) (data state)))
-(module (data state applicative) = ((algebraic-structures applicative) (data state)))
-(module (data state monad) = ((algebraic-structures monad) (data state)))
-
 (import (prefix (data state) st:)
-        (prefix (data state functor) st:)
-        (prefix (data state applicative) st:)
         (prefix (data state monad) st:))
 
 ;; (st:run (st:do (x <- st:get)
