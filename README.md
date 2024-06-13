@@ -14,20 +14,11 @@ $ chicken-install
 ## Supported Features
 
 - Monoid
-  - list
-  - number (sum)
-  - number (product)
 - Foldable
-  - list
-  - vector
 - Functor
-  - list
 - Applicative
-  - list
 - Monad
-  - list
 - Alternative
-  - list
 
 ## Example
 
