@@ -14,6 +14,7 @@ $ chicken-install
 ## Supported Features
 
 - Monoid
+- Group
 - Foldable
 - Functor
 - Applicative
