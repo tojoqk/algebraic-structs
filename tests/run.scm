@@ -126,12 +126,12 @@
 
 (import (algebraic-structures functor))
 (module (data list functor) = (algebraic-structures functor)
-  (import scheme (chicken module))
-  (export map))
+  (import (chicken module))
+  (reexport (rename scheme (map map1))))
 
 (import (prefix (data list functor) list:))
 
-(test '((a) (b) (c)) (list:map list '(a b c)))
+(test '((a) (b) (c)) (list:map1 list '(a b c)))
 
 (test-end "functor")
 
@@ -179,7 +179,7 @@
       (list:map2 list '(a b c) '(1 2)))
 
 (test '((a 1 z) (a 2 z) (b 1 z) (b 2 z) (c 1 z) (c 2 z))
-      (list:map* list '(a b c) '(1 2) '(z)))
+      (list:map list '(a b c) '(1 2) '(z)))
 
 (test-end "applicative")
 
@@ -187,7 +187,7 @@
 
 (import (algebraic-structures monad))
 (module (data list monad) = (algebraic-structures monad)
-  (import (except scheme map)
+  (import scheme
           (chicken module)
           (srfi 1))
   (reexport (data list applicative))

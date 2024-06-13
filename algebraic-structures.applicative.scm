@@ -1,5 +1,5 @@
-(functor ((algebraic-structures applicative) (A (pure map map2)))
-    (pure map map2 map* apply)
+(functor ((algebraic-structures applicative) (A (pure map1 map2)))
+    (pure map1 map2 map apply)
   (import (rename scheme (map scheme:map) (apply scheme:apply))
           (only (chicken base) sub1 add1 foldl case-lambda)
           A
@@ -16,9 +16,9 @@
                  (lambda (args)
                    (k (cons x args))))))))
 
-  (define map*
+  (define map
     (case-lambda
-      ((f x) (map f x))
+      ((f x) (map1 f x))
       ((f x y) (map2 f x y))
       ((f x . xs)
        (let ((g (curry-n f (add1 (length xs)))))
