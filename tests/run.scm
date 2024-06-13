@@ -71,19 +71,17 @@
 
 (module (data list foldable) = (algebraic-structures foldable)
   (import (chicken module))
-  (reexport (only (chicken base) foldl foldr)))
+  (reexport (only (srfi 1) fold)))
 
 (import (prefix (data list foldable) list:))
 
-(test '(a b c d e) (list:foldr cons '() '(a b c d e)))
-(test '(((((() a) b) c) d) e) (list:foldl list '() '(a b c d e)))
+(test '(e d c b a) (list:fold cons '() '(a b c d e)))
 
 (test 0 (list:length '()))
 (test 5 (list:length '(a b c d e)))
 
-(test #f (list:find (constantly #t) '()))
-(test #f (list:find even? '(1 3 5 7)))
-(test 4 (list:find even? '(1 3 4 7 8)))
+(test 0 (list:count even? '(1 3 5 7)))
+(test 2 (list:count even? '(1 3 4 7 8)))
 
 (test #f (list:any (constantly #t) '()))
 (test #f (list:any (cut member 'x <>) '((a b c) (d e f))))
