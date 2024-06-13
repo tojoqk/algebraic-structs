@@ -1,3 +1,7 @@
+(import (algebraic-structures functor)
+        (algebraic-structures applicative)
+        (algebraic-structures monad))
+
 (module (data optional) (<some> some some? some-value <none> none none?)
   (import scheme
           (chicken base)
@@ -20,15 +24,25 @@
     (lambda (_ out)
       (fprintf out "#<(none)>"))))
 
-(module (data optional monad base) (pure map map2 >>=)
-  (import (except scheme map)
+(module (data optional functor) = (algebraic-structures functor)
+  (import scheme
           (prefix (data optional) opt:)
-          matchable)
+          matchable
+          (chicken module))
+  (export map1)
 
-  (define (map f opt)
+  (define (map1 f opt)
     (match opt
       [($ opt:<some> x) (opt:some (f x))]
-      [($ opt:<none>) (opt:none)]))
+      [($ opt:<none>) (opt:none)])))
+
+(module (data optional applicative) = (algebraic-structures applicative)
+  (import scheme
+          (prefix (data optional) opt:)
+          matchable
+          (chicken module))
+  (reexport (data optional functor))
+  (export pure map2)
 
   (define (pure x)
     (opt:some x))
@@ -39,31 +53,30 @@
        (match opt2
          [($ opt:<some> y) (opt:some (f x y))]
          [($ opt:<none>) (opt:none)])]
-      [($ opt:<none>) (opt:none)]))
+      [($ opt:<none>) (opt:none)])))
+
+(module (data optional monad) = (algebraic-structures monad)
+  (import (except scheme map apply)
+          (prefix (data optional) opt:)
+          matchable
+          (chicken module))
+  (reexport (data optional applicative))
+  (export >>=)
 
   (define (>>= opt f)
     (match opt
       [($ opt:<some> x) (f x)]
       [($ opt:<none>) (opt:none)])))
 
-(import (only (algebraic-structures functor))
-        (only (algebraic-structures applicative))
-        (only (algebraic-structures monad)))
-
-(module (data optional functor) = ((algebraic-structures functor) (data optional monad base)))
-(module (data optional applicative) = ((algebraic-structures applicative) (data optional monad base)))
-(module (data optional monad) = ((algebraic-structures monad) (data optional monad base)))
-
-(import (prefix (data optional) opt:)
-        (prefix (data optional functor) opt:)
-        (prefix (data optional applicative) opt:)
-        (prefix (data optional monad) opt:))
+(import (prefix (data optional) opt:))
+(import (prefix (data optional applicative) opt:))
+(import (prefix (data optional monad) opt:))
 
 ;; (opt:map (lambda (x) (* x x)) (opt:pure 5)) => (some 25)
 ;; (opt:map (lambda (x) (* x x)) (opt:none)) => (none)
 
-;; (opt:map* + (opt:pure 1) (opt:pure 2) (opt:pure 3)) => (some 6)
-;; (opt:map* + (opt:pure 1) (opt:none) (opt:pure 3)) => (none)
+;; (opt:map + (opt:pure 1) (opt:pure 2) (opt:pure 3)) => (some 6)
+;; (opt:map + (opt:pure 1) (opt:none) (opt:pure 3)) => (none)
 
 ;; (opt:do (x <- (opt:pure 3))
 ;;         (y <- (opt:pure 4))
