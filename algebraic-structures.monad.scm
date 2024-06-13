@@ -1,5 +1,5 @@
-(functor ((algebraic-structures monad) (M (pure map map2 >>=)))
-    (pure map map2 >>= do)
+(functor ((algebraic-structures monad) (M (pure map1 map2 map apply >>=)))
+    (pure map1 map2 map apply >>= do)
   (import (rename scheme (map scheme:map) (do scheme:do))
           M)
   (import-for-syntax matchable
