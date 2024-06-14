@@ -8,6 +8,7 @@
  (dependencies matchable)
  (test-dependencies test)
  (components
+  (extension algebraic-structures.semigroup)
   (extension algebraic-structures.monoid)
   (extension algebraic-structures.monoid.fold)
   (extension algebraic-structures.group)

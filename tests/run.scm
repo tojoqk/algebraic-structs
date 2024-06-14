@@ -2,7 +2,28 @@
 
 (test-begin "algebraic-structures")
 
-(test-begin "monoid")
+(test-begin "semigroup")
+
+(import (algebraic-structures semigroup))
+
+(module (mod7 semigroup) = (algebraic-structures semigroup)
+  (import scheme
+          (chicken module)
+          (chicken base))
+  (export <>)
+
+  (define (<> x y)
+    (assert (integer? x))
+    (assert (integer? y))
+    (assert (not (zero? x)))
+    (assert (not (zero? y)))
+    (modulo (* x y) 7)))
+
+(import (prefix (algebraic-structures semigroup) mod7:<>))
+
+(test 5 (mod7:<> 3 4))
+
+(test-end "semigroup")
 
 (import (algebraic-structures monoid))
 
@@ -10,21 +31,14 @@
   (import scheme
           (chicken module)
           (chicken base))
-  (export <> unit)
-
-  (define (<> x y)
-    (assert (integer? x))
-    (assert (integer? y))
-    (assert (not (zero? x)))
-    (assert (not (zero? y)))
-    (modulo (* x y) 7))
+  (reexport (mod7 semigroup))
+  (export unit)
 
   (define unit 1))
 
 (import (prefix (mod7 monoid) mod7:)
         (srfi 1))
 
-(test 5 (mod7:<> 3 4))
 (test 1 mod7:unit)
 
 (test-end "monoid")
@@ -95,18 +109,25 @@
 
 (test-begin "monoid.fold")
 
-(module (product monoid) = (algebraic-structures monoid)
+(module (product semigroup) = (algebraic-structures semigroup)
   (import scheme
           (chicken base)
           (chicken module))
-  (export <> unit)
+  (export <>)
 
   (define (<> x y)
     (assert (number? x))
     (assert (not (zero? x)))
     (assert (number? y))
     (assert (not (zero? y)))
-    (* x y))
+    (* x y)))
+
+(module (product monoid) = (algebraic-structures monoid)
+  (import scheme
+          (chicken base)
+          (chicken module))
+  (reexport (product semigroup))
+  (export unit)
 
   (define unit 1))
 
