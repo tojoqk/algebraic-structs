@@ -144,7 +144,10 @@
 (import (prefix (product monoid) product:))
 (import (prefix (product fold) product:))
 
+(test 1 (product:fold '()))
 (test 120 (product:fold '(1 2 3 4 5)))
+(test 1 (product:fold-map error '()))
+(test 6 (product:fold-map length '((a a a) (a a) (a))))
 
 (test-end "monoid.fold")
 
