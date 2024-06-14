@@ -21,7 +21,7 @@ $ chicken-install
 - Monad
 - Alternative
 
-## Example
+## Examples
 
 - Monad
   - [optonal](./examples/optional.scm)
