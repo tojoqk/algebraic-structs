@@ -19,11 +19,13 @@
     (assert (not (zero? y)))
     (modulo (* x y) 7)))
 
-(import (prefix (algebraic-structures semigroup) mod7:<>))
+(import (prefix (mod7 semigroup) mod7:))
 
 (test 5 (mod7:<> 3 4))
 
 (test-end "semigroup")
+
+(test-begin "monoid")
 
 (import (algebraic-structures monoid))
 
@@ -104,6 +106,9 @@
 (test #t (list:every (constantly #f) '()))
 (test #f (list:every (cut member 'x <>) '((a b c) (d x f))))
 (test '(x f) (list:every (cut member 'x <>) '((a x c) (d x f))))
+
+(test 7 (list:maximum '(1 3 7 5) <))
+(test -3 (list:minimum '(4 -3 0 1 7 8) <))
 
 (test-end "foldable")
 
