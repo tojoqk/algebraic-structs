@@ -114,6 +114,49 @@
 
 (test-end "foldable")
 
+(test-begin "reducible")
+
+(module (data list reducible) = (algebraic-structures reducible)
+  (import scheme
+          (algebraic-structures reducible)
+          (rename (srfi 1) (reduce srfi:reduce))
+          (only (chicken base) assert)
+          (chicken module))
+  (export reduce)
+
+  (define (reduce f xs)
+    (assert (list? xs))
+    (assert (not (null? xs)))
+    (srfi:reduce f #f xs)))
+
+(import (prefix (data list reducible) list:))
+
+(test 10 (list:reduce + '(1 2 3 4)))
+(test -3 (list:minimum '(1 8 -3 5 4) <))
+(test 8 (list:maximum '(1 8 -3 5 4) <))
+
+(test-end "reducible")
+
+(test-begin "semigroup.reducible")
+
+(module (sum semigroup) = (algebraic-structures semigroup)
+  (import scheme
+          (chicken base)
+          (chicken module))
+  (export <>)
+
+  (define (<> x y)
+    (+ x y)))
+
+(import (algebraic-structures semigroup reduce))
+(module (sum reduce) = ((algebraic-structures semigroup reduce) (sum semigroup) (data list reducible)))
+
+(import (prefix (sum reduce) sum:))
+
+(test 3 (sum:reduce '(1 2)))
+
+(test-end "semigroup.reducible")
+
 (test-begin "monoid.fold")
 
 (module (product semigroup) = (algebraic-structures semigroup)
