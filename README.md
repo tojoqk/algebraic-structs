@@ -13,6 +13,7 @@ $ chicken-install
 
 ## Supported Features
 
+- Semigroup
 - Monoid
 - Group
 - Foldable
