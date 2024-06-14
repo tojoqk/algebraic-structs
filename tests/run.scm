@@ -107,8 +107,10 @@
 (test #f (list:every (cut member 'x <>) '((a b c) (d x f))))
 (test '(x f) (list:every (cut member 'x <>) '((a x c) (d x f))))
 
-(test 7 (list:maximum '(1 3 7 5) <))
-(test -3 (list:minimum '(4 -3 0 1 7 8) <))
+(test #t (list:member? 3 '(1 3 7 5) =))
+(test #f (list:member? 3 '(1 7 5) =))
+(test #t (list:member? 'c '(a b c) eq?))
+(test #f (list:member? 'c '(a b) eq?))
 
 (test-end "foldable")
 

@@ -3,10 +3,11 @@
      length
      count
      any
-     every)
+     every
+     member?)
   (import (except scheme length)
           F
-          (only (chicken base) add1 call/cc))
+          (only (chicken base) add1 call/cc assert))
 
   (define (length xs)
     (fold (lambda (_ acc) (add1 acc))
@@ -36,4 +37,16 @@
        (fold (lambda (e acc)
                (or (pred e) (return #f)))
              #t
+             xs))))
+
+  (define (member? x xs #!optional (= equal?))
+    (call/cc
+     (lambda (return)
+       (fold (lambda (e _)
+               (if (= e x)
+                   (return #t)
+                   #f))
+             #f
              xs)))))
+
+
