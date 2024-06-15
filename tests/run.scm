@@ -83,13 +83,7 @@
 
 (test-begin "foldable")
 
-(import (algebraic-structures foldable))
-
-(module (data list foldable) = (algebraic-structures foldable)
-  (import (chicken module))
-  (reexport (only (srfi 1) fold)))
-
-(import (prefix (data list foldable) list:))
+(import (prefix (algebraic-structures list foldable) list:))
 
 (test '(e d c b a) (list:fold cons '() '(a b c d e)))
 
@@ -116,20 +110,7 @@
 
 (test-begin "reducible")
 
-(module (data list reducible) = (algebraic-structures reducible)
-  (import scheme
-          (algebraic-structures reducible)
-          (rename (srfi 1) (reduce srfi:reduce))
-          (only (chicken base) assert)
-          (chicken module))
-  (export reduce)
-
-  (define (reduce f xs)
-    (assert (list? xs))
-    (assert (not (null? xs)))
-    (srfi:reduce f #f xs)))
-
-(import (prefix (data list reducible) list:))
+(import (prefix (algebraic-structures list reducible) list:))
 
 (test 10 (list:reduce + '(1 2 3 4)))
 (test -3 (list:minimum '(1 8 -3 5 4) <))
@@ -149,7 +130,9 @@
     (+ x y)))
 
 (import (algebraic-structures semigroup reduce))
-(module (sum reduce) = ((algebraic-structures semigroup reduce) (sum semigroup) (data list reducible)))
+(module (sum reduce) = ((algebraic-structures semigroup reduce)
+                        (sum semigroup)
+                        (algebraic-structures list reducible)))
 
 (import (prefix (sum reduce) sum:))
 
@@ -182,7 +165,9 @@
   (define unit 1))
 
 (import (algebraic-structures monoid fold))
-(module (product fold) = ((algebraic-structures monoid fold) (product monoid) (data list foldable)))
+(module (product fold) = ((algebraic-structures monoid fold)
+                          (product monoid)
+                          (algebraic-structures list foldable)))
 
 (import (prefix (product monoid) product:))
 (import (prefix (product fold) product:))
@@ -196,12 +181,7 @@
 
 (test-begin "functor")
 
-(import (algebraic-structures functor))
-(module (data list functor) = (algebraic-structures functor)
-  (import (chicken module))
-  (reexport (rename scheme (map map1))))
-
-(import (prefix (data list functor) list:))
+(import (prefix (algebraic-structures list functor) list:))
 
 (test '((a) (b) (c)) (list:map1 list '(a b c)))
 
@@ -209,41 +189,7 @@
 
 (test-begin "applicative")
 
-(import (algebraic-structures applicative))
-(module (data list applicative) = (algebraic-structures applicative)
-  (import (except scheme map)
-          (chicken module)
-          (srfi 1)
-          matchable
-          (chicken base)
-          (data list functor))
-  (reexport (data list functor))
-  (export pure map2)
-
-  (define (pure x)
-    (list x))
-
-  (define (rev-map f lst)
-    (let loop ((lst lst)
-               (acc '()))
-      (match lst
-        [() acc]
-        [(h . t)
-         (loop t (cons (f h) acc))])))
-
-  (define (product op lst1 lst2)
-    (let loop ((lst lst1)
-               (acc '()))
-      (match lst
-        [() (reverse! acc)]
-        [(h . t)
-         (loop t
-               (append! (rev-map (cut op h <>) lst2)
-                        acc))])))
-
-  (define map2 product))
-
-(import (prefix (data list applicative) list:))
+(import (prefix (algebraic-structures list applicative) list:))
 
 (test '(a) (list:pure 'a))
 
@@ -253,22 +199,22 @@
 (test '((a 1 z) (a 2 z) (b 1 z) (b 2 z) (c 1 z) (c 2 z))
       (list:map list '(a b c) '(1 2) '(z)))
 
+(test-begin "list.zip")
+
+(import (prefix (algebraic-structures list zip applicative) list-zip:))
+
+(test '(a) (list:pure 'a))
+
+(test '((a 1) (b 2))
+      (list-zip:map2 list '(a b c) '(1 2)))
+
+(test-end "list.zip")
+
 (test-end "applicative")
 
 (test-begin "monad")
 
-(import (algebraic-structures monad))
-(module (data list monad) = (algebraic-structures monad)
-  (import scheme
-          (chicken module)
-          (srfi 1))
-  (reexport (data list applicative))
-  (export >>=)
-
-  (define (>>= lst f)
-    (append-map f lst)))
-
-(import (prefix (data list monad) list:))
+(import (prefix (algebraic-structures list monad) list:))
 
 (test '((1 a) (2 a))
       (list:>>= (list:pure 'a)
@@ -287,21 +233,7 @@
 
 (test-begin "alternative")
 
-(import (algebraic-structures alternative))
-(module (data list alternative) = (algebraic-structures alternative)
-  (import (except scheme map)
-          (chicken module)
-          (chicken base)
-          (data list applicative))
-  (reexport (data list applicative))
-  (export alt empty)
-
-  (define (alt x y)
-    (append x y))
-
-  (define empty '()))
-
-(import (prefix (data list alternative) list:))
+(import (prefix (algebraic-structures list alternative) list:))
 
 (test '(9 25)
       (list:do (x <- '(2 3 4 5))
