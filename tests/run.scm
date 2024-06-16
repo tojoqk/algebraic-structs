@@ -1,4 +1,6 @@
-(import (chicken load) (test))
+(import (chicken load)
+        (test)
+        (srfi 41))
 
 (test-begin "algebraic-structures")
 
@@ -23,6 +25,20 @@
 
 (test 5 (mod7:<> 3 4))
 
+(test-begin "list")
+
+(import (prefix (algebraic-structures list semigroup) list:))
+(test '(a b c) (list:<> '(a b) '(c)))
+
+(test-end "list")
+
+(test-begin "stream")
+
+(import (prefix (algebraic-structures stream semigroup) stream:))
+(test '(a b c) (stream->list (stream:<> (stream 'a 'b) (stream 'c))))
+
+(test-end "stream")
+
 (test-end "semigroup")
 
 (test-begin "monoid")
@@ -42,6 +58,20 @@
         (srfi 1))
 
 (test 1 mod7:unit)
+
+(test-begin "list")
+
+(import (prefix (algebraic-structures list monoid) list:))
+(test '() (begin list:unit))
+
+(test-end "list")
+
+(test-begin "stream")
+
+(import (prefix (algebraic-structures stream monoid) stream:))
+(test '() (stream->list stream:unit))
+
+(test-end "stream")
 
 (test-end "monoid")
 
@@ -106,6 +136,37 @@
 (test #t (list:member? 'c '(a b c) eq?))
 (test #f (list:member? 'c '(a b) eq?))
 
+(test-begin "stream")
+
+(import (prefix (algebraic-structures stream foldable) stream:))
+
+(test '(e d c b a) (stream:fold cons '() (stream 'a 'b 'c 'd 'e)))
+
+(test 0 (stream:length stream-null))
+(test 5 (stream:length (stream-take 5 (stream-from 1))))
+
+(test 0 (stream:count even? (stream 1 3 5 7)))
+(test 2 (stream:count even? (stream 1 3 4 7 8)))
+
+(test #f (stream:any (constantly #t) stream-null))
+(test #f (stream:any (cut member 'x <>) (stream '(a b c) '(d e f))))
+(test '(x f) (stream:any (cut member 'x <>) (stream '(a b c) '(d x f))))
+(test '(x f) (stream:any (cut member 'x <>) (stream '(a b c) '(d x f))))
+(test #t (stream:any even? (stream-from 1)))
+
+(test #t (stream:every (constantly #f) stream-null))
+(test #f (stream:every (cut member 'x <>) (stream '(a b c) '(d x f))))
+(test '(x f) (stream:every (cut member 'x <>) (stream '(a x c) '(d x f))))
+(test #f (stream:every even? (stream-from 0)))
+
+(test #t (stream:member? 3 (stream 1 3 7 5) =))
+(test #f (stream:member? 3 (stream 1 7 5) =))
+(test #t (stream:member? 'c (stream 'a 'b 'c) eq?))
+(test #f (stream:member? 'c (stream 'a 'b) eq?))
+(test #t (stream:member? 1000 (stream-from 1) =))
+
+(test-end "stream")
+
 (test-end "foldable")
 
 (test-begin "reducible")
@@ -115,6 +176,16 @@
 (test 10 (list:reduce + '(1 2 3 4)))
 (test -3 (list:minimum '(1 8 -3 5 4) <))
 (test 8 (list:maximum '(1 8 -3 5 4) <))
+
+(test-begin "stream")
+
+(import (prefix (algebraic-structures stream reducible) stream:))
+
+(test 10 (stream:reduce + (stream 1 2 3 4)))
+(test -3 (stream:minimum (stream 1 8 -3 5 4) <))
+(test 8 (stream:maximum (stream 1 8 -3 5 4) <))
+
+(test-end "stream")
 
 (test-end "reducible")
 
@@ -185,6 +256,14 @@
 
 (test '((a) (b) (c)) (list:map1 list '(a b c)))
 
+(test-begin "stream")
+
+(import (prefix (algebraic-structures stream functor) stream:))
+
+(test '((a) (b) (c)) (stream->list (stream:map1 list (stream 'a 'b 'c))))
+
+(test-end "stream")
+
 (test-end "functor")
 
 (test-begin "applicative")
@@ -199,6 +278,25 @@
 (test '((a 1 z) (a 2 z) (b 1 z) (b 2 z) (c 1 z) (c 2 z))
       (list:map list '(a b c) '(1 2) '(z)))
 
+(test-begin "stream")
+
+(import (prefix (algebraic-structures stream applicative) stream:))
+
+(test '(a) (stream->list (stream:pure 'a)))
+
+(test '((a 1) (a 2) (b 1) (b 2) (c 1) (c 2))
+      (stream->list (stream:map2 list (stream 'a 'b 'c) (stream 1 2))))
+
+(test '((a 1 z) (a 2 z) (b 1 z) (b 2 z) (c 1 z) (c 2 z))
+      (stream->list
+       (stream:map list (stream 'a 'b 'c) (stream 1 2) (stream 'z))))
+
+(test '((1 a) (1 b) (1 c) (2 a))
+      (stream->list
+       (stream-take 4 (stream:map2 list (stream-from 1) (stream 'a 'b 'c)))))
+
+(test-end "stream")
+
 (test-begin "list.zip")
 
 (import (prefix (algebraic-structures list zip applicative) list-zip:))
@@ -209,6 +307,17 @@
       (list-zip:map2 list '(a b c) '(1 2)))
 
 (test-end "list.zip")
+
+(test-begin "stream.zip")
+
+(import (prefix (algebraic-structures stream zip applicative) stream-zip:))
+
+(test '(a) (stream->list (stream:pure 'a)))
+
+(test '((a 1) (b 2))
+      (stream->list (stream-zip:map2 list (stream 'a 'b 'c) (stream 1 2))))
+
+(test-end "stream.zip")
 
 (test-end "applicative")
 
@@ -229,6 +338,19 @@
                (list 2)
                (list:pure (* x y z))))
 
+(test-begin "stream")
+
+(import (prefix (algebraic-structures stream monad) stream:))
+
+(test '((1 a) (2 a))
+      (stream->list
+       (stream:>>= (stream:pure 'a)
+                   (lambda (x)
+                     (stream (list 1 x)
+                             (list 2 x))))))
+
+(test-end "stream")
+
 (test-end "monad")
 
 (test-begin "alternative")
@@ -239,6 +361,22 @@
       (list:do (x <- '(2 3 4 5))
                (list:guard (odd? x))
                (list:pure (* x x))))
+
+(test-begin "stream")
+
+(import (prefix (algebraic-structures stream alternative) stream:))
+
+(test '((3 4 5) (6 8 10) (5 12 13) (9 12 15) (8 15 17))
+      (stream->list
+       (stream-take 5
+                    (stream:do (b <- (stream-from 1))
+                               (a <- (stream-range 1 b))
+                               (let c^2 = (+ (* a a) (* b b)))
+                               (let-values (c r) = (exact-integer-sqrt c^2))
+                               (stream:guard (= r 0))
+                               (stream:pure (list a b c))))))
+
+(test-end "stream")
 
 (test-end "alternative")
 
