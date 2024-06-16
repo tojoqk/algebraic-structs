@@ -4,6 +4,7 @@
                   (apply scheme:apply)
                   (map scheme:map)
                   (do scheme:do))
+          (chicken base)
           M)
   (import-for-syntax matchable
                      (chicken syntax)
@@ -31,8 +32,8 @@
                                   (every symbol? var)
                                   (symbol? let-stx) (compare let-stx (inject 'let-values))
                                   (symbol? =-stx) (compare =-stx (inject '=)))
-                             `(call-with-values (lambda () ,expr)
-                                (lambda ,var ,acc)))
+                             `(receive ,var ,expr
+                                ,acc))
                             (else
                              `(>>= ,binding (lambda (_) ,acc))))]
                      [expr
