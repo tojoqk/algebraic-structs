@@ -394,7 +394,7 @@
 
 (import (prefix (algebraic-structures list zip applicative) list-zip:))
 
-(test '(a) (list:pure 'a))
+(test '(a) (list-zip:pure 'a))
 
 (test '((a 1) (b 2))
       (list-zip:map2 list '(a b c) '(1 2)))
@@ -416,7 +416,7 @@
 
 (import (prefix (algebraic-structures stream zip applicative) stream-zip:))
 
-(test '(a) (stream->list (stream:pure 'a)))
+(test '(a) (stream->list (stream-zip:pure 'a)))
 
 (test '((a 1) (b 2))
       (stream->list (stream-zip:map2 list (stream 'a 'b 'c) (stream 1 2))))
