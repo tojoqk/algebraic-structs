@@ -7,7 +7,7 @@
           M)
   (import-for-syntax matchable
                      (chicken syntax)
-                     (only (srfi 1) last))
+                     (only (srfi 1) every last))
 
   (define-syntax do
     (ir-macro-transformer
@@ -27,6 +27,12 @@
                                   (symbol? let-stx) (compare let-stx (inject 'let))
                                   (symbol? =-stx) (compare =-stx (inject '=)))
                              `((lambda (,var) ,acc) ,expr))
+                            ((and (list? var)
+                                  (every symbol? var)
+                                  (symbol? let-stx) (compare let-stx (inject 'let-values))
+                                  (symbol? =-stx) (compare =-stx (inject '=)))
+                             `(call-with-values (lambda () ,expr)
+                                (lambda ,var ,acc)))
                             (else
                              `(>>= ,binding (lambda (_) ,acc))))]
                      [expr
