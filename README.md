@@ -24,7 +24,9 @@ $ chicken-install
 ```scheme
 (import (algebraic-structures semigroup)
         (algebraic-structures monoid)
-        (algebraic-structures group))
+        (algebraic-structures group)
+        (algebraic-structures monoid fold)
+        (algebraic-structures list foldable))
 
 (module (mod7 semigroup) = (algebraic-structures semigroup)
   (import scheme
@@ -67,7 +69,10 @@ $ chicken-install
       (5 3)
       (6 6))))
 
-(import (prefix (mod7 group) mod7:))
+(module (mod7 fold) = ((algebraic-structures monoid fold) (mod7 monoid) (algebraic-structures list foldable)))
+
+(import (prefix (mod7 group) mod7:)
+        (prefix (mod7 fold) mod7:))
 ```
 
 In REPL:
