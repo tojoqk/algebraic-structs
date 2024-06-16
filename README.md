@@ -58,6 +58,6 @@ $ chicken-install
 ## Examples
 
 - Monad
-  - [optonal](./examples/optional.scm)
-  - [state](./examples/optional.scm)
+  - [optional](./examples/optional.scm)
+  - [state](./examples/state.scm)
 
