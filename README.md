@@ -11,12 +11,6 @@ $ cd algebraic-structures
 $ chicken-install
 ```
 
-### Requirements
-
-- matchable
-- srfi-41
-- srfi-133
-
 ## Usage
 
 ### Define Semigroup, Monoid and Group
