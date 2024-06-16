@@ -1,6 +1,6 @@
 ;;; -*- scheme -*-
 
-((synopsis "Provides useful algebraic structures for programming using parameterized module.")
+((synopsis "Provides useful algebraic structures for programming using parametric modules.")
  (author "Masaya Tojo")
  (license "BSD")
  (category data)

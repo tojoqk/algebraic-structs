@@ -1,6 +1,6 @@
 # algebraic-structures
 
-Provides useful algebraic structures for programming using parameterized module.
+Provides useful algebraic structures for programming using parametric modules in Chicken Scheme.
 
 ## Install
 
