@@ -11,8 +11,8 @@
                      (only (srfi 1) every last))
 
   (define-syntax do
-    (ir-macro-transformer
-     (lambda (expr inject compare)
+    (er-macro-transformer
+     (lambda (expr rename compare)
        (match expr
          [(_ body ...)
           (foldr (lambda (binding acc)
@@ -20,23 +20,22 @@
                      [(var stx expr)
                       (if (and (symbol? var)
                                (symbol? stx)
-                               (compare stx '<-))
-                          `(>>= ,expr (lambda (,var) ,acc))
-                          `(>>= ,binding (lambda (_) ,acc)))]
+                               (compare stx (rename '<-)))
+                          `(,(rename '>>=) ,expr (,(rename 'lambda) (,var) ,acc))
+                          `(,(rename '>>=) ,binding (,(rename 'lambda) (_) ,acc)))]
                      [(let-stx var =-stx expr)
                       (cond ((and (symbol? var)
-                                  (symbol? let-stx) (compare let-stx (inject 'let))
-                                  (symbol? =-stx) (compare =-stx (inject '=)))
-                             `((lambda (,var) ,acc) ,expr))
+                                  (symbol? let-stx) (compare let-stx 'let)
+                                  (symbol? =-stx) (compare =-stx '=))
+                             `((,(rename 'lambda) (,var) ,acc) ,expr))
                             ((and (list? var)
                                   (every symbol? var)
-                                  (symbol? let-stx) (compare let-stx (inject 'let-values))
-                                  (symbol? =-stx) (compare =-stx (inject '=)))
-                             `(receive ,var ,expr
-                                ,acc))
+                                  (symbol? let-stx) (compare let-stx 'let-values)
+                                  (symbol? =-stx) (compare =-stx '=))
+                             `(,(rename 'receive) ,var ,expr ,acc))
                             (else
-                             `(>>= ,binding (lambda (_) ,acc))))]
+                             `(,(rename '>>=) ,binding (,(rename 'lambda) (_) ,acc))))]
                      [expr
-                      `(>>= ,expr (lambda (_) ,acc))]))
+                      `(,(rename '>>=) ,expr (,(rename 'lambda) (_) ,acc))]))
                  (last body)
                  (butlast body))])))))
