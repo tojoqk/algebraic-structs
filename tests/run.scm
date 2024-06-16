@@ -32,6 +32,13 @@
 
 (test-end "list")
 
+(test-begin "vector")
+
+(import (prefix (algebraic-structures vector semigroup) vector:))
+(test #(a b c) (vector:<> #(a b) #(c)))
+
+(test-end "vector")
+
 (test-begin "stream")
 
 (import (prefix (algebraic-structures stream semigroup) stream:))
@@ -65,6 +72,13 @@
 (test '() (begin list:unit))
 
 (test-end "list")
+
+(test-begin "vector")
+
+(import (prefix (algebraic-structures vector monoid) vector:))
+(test #() (begin vector:unit))
+
+(test-end "vector")
 
 (test-begin "stream")
 
@@ -136,6 +150,33 @@
 (test #t (list:member? 'c '(a b c) eq?))
 (test #f (list:member? 'c '(a b) eq?))
 
+(test-begin "vector")
+
+(import (prefix (algebraic-structures vector foldable) vector:))
+
+(test '(e d c b a) (vector:fold cons '() #(a b c d e)))
+
+(test 0 (vector:length #()))
+(test 5 (vector:length #(a b c d e)))
+
+(test 0 (vector:count even? #(1 3 5 7)))
+(test 2 (vector:count even? #(1 3 4 7 8)))
+
+(test #f (vector:any (constantly #t) #()))
+(test #f (vector:any (cut member 'x <>) (vector '(a b c) '(d e f))))
+(test '(x f) (vector:any (cut member 'x <>) (vector '(a b c) '(d x f))))
+
+(test #t (vector:every (constantly #f) #()))
+(test #f (vector:every (cut member 'x <>) (vector '(a b c) '(d x f))))
+(test '(x f) (vector:every (cut member 'x <>) (vector '(a x c) '(d x f))))
+
+(test #t (vector:member? 3 #(1 3 7 5) =))
+(test #f (vector:member? 3 #(1 7 5) =))
+(test #t (vector:member? 'c #(a b c) eq?))
+(test #f (vector:member? 'c #(a b) eq?))
+
+(test-end "vector")
+
 (test-begin "stream")
 
 (import (prefix (algebraic-structures stream foldable) stream:))
@@ -176,6 +217,16 @@
 (test 10 (list:reduce + '(1 2 3 4)))
 (test -3 (list:minimum '(1 8 -3 5 4) <))
 (test 8 (list:maximum '(1 8 -3 5 4) <))
+
+(test-begin "vector")
+
+(import (prefix (algebraic-structures vector reducible) vector:))
+
+(test 10 (vector:reduce + #(1 2 3 4)))
+(test -3 (vector:minimum #(1 8 -3 5 4) <))
+(test 8 (vector:maximum #(1 8 -3 5 4) <))
+
+(test-end "vector")
 
 (test-begin "stream")
 
@@ -256,6 +307,14 @@
 
 (test '((a) (b) (c)) (list:map1 list '(a b c)))
 
+(test-begin "vector")
+
+(import (prefix (algebraic-structures vector functor) vector:))
+
+(test (vector '(a) '(b) '(c)) (vector:map1 list (vector 'a 'b 'c)))
+
+(test-end "vector")
+
 (test-begin "stream")
 
 (import (prefix (algebraic-structures stream functor) stream:))
@@ -307,6 +366,17 @@
       (list-zip:map2 list '(a b c) '(1 2)))
 
 (test-end "list.zip")
+
+(test-begin "vector.zip")
+
+(import (prefix (algebraic-structures vector zip applicative) vector-zip:))
+
+(test #(a) (vector-zip:pure 'a))
+
+(test (vector '(a 1) '(b 2))
+      (vector-zip:map2 list #(a b c) #(1 2)))
+
+(test-end "vector.zip")
 
 (test-begin "stream.zip")
 

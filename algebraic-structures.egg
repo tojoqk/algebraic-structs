@@ -5,7 +5,7 @@
  (license "BSD")
  (category data)
  (version "0.1.0")
- (dependencies matchable srfi-41)
+ (dependencies matchable srfi-41 srfi-133)
  (test-dependencies test)
  (components
   (extension algebraic-structures.semigroup)
@@ -35,6 +35,16 @@
   (extension algebraic-structures.list.monad)
   (extension algebraic-structures.private.list.alternative)
   (extension algebraic-structures.list.alternative)
+
+  ;; Vector
+  (extension algebraic-structures.private.vector)
+  (extension algebraic-structures.vector.semigroup)
+  (extension algebraic-structures.vector.monoid)
+  (extension algebraic-structures.vector.foldable)
+  (extension algebraic-structures.vector.reducible)
+  (extension algebraic-structures.vector.functor)
+  (extension algebraic-structures.private.vector.zip.applicative)
+  (extension algebraic-structures.vector.zip.applicative)
 
   ;; Stream
   (extension algebraic-structures.private.stream)
