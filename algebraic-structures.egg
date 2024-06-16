@@ -20,6 +20,18 @@
   (extension algebraic-structures.monad)
   (extension algebraic-structures.alternative)
 
+  ;; Number (Product)
+  (extension algebraic-structures.private.number.product)
+  (extension algebraic-structures.number.product.semigroup)
+  (extension algebraic-structures.number.product.monoid)
+  (extension algebraic-structures.number.product.group)
+
+  ;; Number (Sum)
+  (extension algebraic-structures.private.number.sum)
+  (extension algebraic-structures.number.sum.semigroup)
+  (extension algebraic-structures.number.sum.monoid)
+  (extension algebraic-structures.number.sum.group)
+
   ;; List
   (extension algebraic-structures.private.list)
   (extension algebraic-structures.list.semigroup)

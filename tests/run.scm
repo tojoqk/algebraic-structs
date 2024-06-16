@@ -25,6 +25,22 @@
 
 (test 5 (mod7:<> 3 4))
 
+(test-begin "number.product")
+
+(import (prefix (algebraic-structures number product semigroup) product:))
+
+(test 12 (product:<> 3 4))
+
+(test-end "number.product")
+
+(test-begin "number.sum")
+
+(import (prefix (algebraic-structures number sum semigroup) sum:))
+
+(test 7 (sum:<> 3 4))
+
+(test-end "number.sum")
+
 (test-begin "list")
 
 (import (prefix (algebraic-structures list semigroup) list:))
@@ -65,6 +81,22 @@
         (srfi 1))
 
 (test 1 mod7:unit)
+
+(test-begin "number.product")
+
+(import (prefix (algebraic-structures number product monoid) product:))
+
+(test 1 (begin product:unit))
+
+(test-end "number.product")
+
+(test-begin "number.sum")
+
+(import (prefix (algebraic-structures number sum monoid) sum:))
+
+(test 0 (begin sum:unit))
+
+(test-end "number.sum")
 
 (test-begin "list")
 
@@ -122,6 +154,26 @@
       (map (cut mod7:pow 3 <>) '(1 2 3 4 5 6)))
 
 (test (mod7:inv 4) (mod7:pow 4 -1))
+
+(test-begin "number.product")
+
+(import (prefix (algebraic-structures number product group) product:))
+
+(test 1/2 (product:inv 2))
+(test 8 (product:pow 2 3))
+(test 1/8 (product:pow 2 -3))
+
+(test-end "number.product")
+
+(test-begin "number.sum")
+
+(import (prefix (algebraic-structures number sum group) sum:))
+
+(test -2 (sum:inv 2))
+(test 6 (sum:pow 2 3))
+(test -6 (sum:pow 2 -3))
+
+(test-end "number.sum")
 
 (test-end "group")
 
@@ -242,18 +294,9 @@
 
 (test-begin "semigroup.reducible")
 
-(module (sum semigroup) = (algebraic-structures semigroup)
-  (import scheme
-          (chicken base)
-          (chicken module))
-  (export <>)
-
-  (define (<> x y)
-    (+ x y)))
-
 (import (algebraic-structures semigroup reduce))
 (module (sum reduce) = ((algebraic-structures semigroup reduce)
-                        (sum semigroup)
+                        (algebraic-structures number sum semigroup)
                         (algebraic-structures list reducible)))
 
 (import (prefix (sum reduce) sum:))
@@ -264,34 +307,11 @@
 
 (test-begin "monoid.fold")
 
-(module (product semigroup) = (algebraic-structures semigroup)
-  (import scheme
-          (chicken base)
-          (chicken module))
-  (export <>)
-
-  (define (<> x y)
-    (assert (number? x))
-    (assert (not (zero? x)))
-    (assert (number? y))
-    (assert (not (zero? y)))
-    (* x y)))
-
-(module (product monoid) = (algebraic-structures monoid)
-  (import scheme
-          (chicken base)
-          (chicken module))
-  (reexport (product semigroup))
-  (export unit)
-
-  (define unit 1))
-
 (import (algebraic-structures monoid fold))
 (module (product fold) = ((algebraic-structures monoid fold)
-                          (product monoid)
+                          (algebraic-structures number product monoid)
                           (algebraic-structures list foldable)))
 
-(import (prefix (product monoid) product:))
 (import (prefix (product fold) product:))
 
 (test 1 (product:fold '()))
