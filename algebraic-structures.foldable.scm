@@ -6,7 +6,7 @@
      every
      member?)
   (import (except scheme length)
-          F
+          (only F fold)
           (only (chicken base) add1 call/cc assert))
 
   (define (length xs)

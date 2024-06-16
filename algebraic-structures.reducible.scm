@@ -3,7 +3,7 @@
      maximum
      minimum)
   (import scheme
-          R)
+          (only R reduce))
 
   (define (minimum xs less?)
     (reduce (lambda (e acc)

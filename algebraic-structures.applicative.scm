@@ -2,7 +2,7 @@
     (pure map1 map2 map apply)
   (import (rename scheme (map scheme:map) (apply scheme:apply))
           (only (chicken base) sub1 add1 foldl case-lambda)
-          A
+          (only A pure map1 map2)
           matchable)
 
   (define (curry-n f n)

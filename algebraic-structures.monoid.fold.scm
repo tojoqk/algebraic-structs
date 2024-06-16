@@ -1,5 +1,7 @@
 (functor ((algebraic-structures monoid fold) (M (<> unit)) (F (fold))) (fold fold-map)
-  (import scheme M (rename F (fold foldable:fold)))
+  (import (except scheme length)
+          (only M <> unit)
+          (rename (only F fold) (fold foldable:fold)))
 
   (define (fold x) (foldable:fold <> unit x))
 

@@ -1,6 +1,6 @@
 (functor ((algebraic-structures group) (M (<> unit inv)))
     (<> unit inv pow)
-  (import M
+  (import (only M <> unit inv)
           scheme
           (chicken base))
 

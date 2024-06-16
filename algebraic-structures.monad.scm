@@ -5,7 +5,7 @@
                   (map scheme:map)
                   (do scheme:do))
           (chicken base)
-          M)
+          (only M pure map1 map2 map apply >>=))
   (import-for-syntax matchable
                      (chicken syntax)
                      (only (srfi 1) every last))
