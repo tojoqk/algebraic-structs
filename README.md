@@ -151,6 +151,7 @@ In REPL:
 - Group
   - [mod7](./examples/mod7.scm)
 - Monad
-  - [pythagorean-triples](./examples/pythagorean-triples.scm)
   - [optional](./examples/optional.scm)
   - [state](./examples/state.scm)
+- Monad (`do` syntax)
+  - [pythagorean-triples](./examples/pythagorean-triples.scm)
