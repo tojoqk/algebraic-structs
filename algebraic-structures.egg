@@ -32,6 +32,11 @@
   (extension algebraic-structures.number.sum.monoid)
   (extension algebraic-structures.number.sum.group)
 
+  ;; String
+  (extension algebraic-structures.private.string)
+  (extension algebraic-structures.string.semigroup)
+  (extension algebraic-structures.string.monoid)
+
   ;; List
   (extension algebraic-structures.private.list)
   (extension algebraic-structures.list.semigroup)

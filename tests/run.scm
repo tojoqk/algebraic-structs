@@ -41,6 +41,13 @@
 
 (test-end "number.sum")
 
+(test-begin "string")
+
+(import (prefix (algebraic-structures string semigroup) string:))
+(test "abc" (string:<> "ab" "c"))
+
+(test-end "string")
+
 (test-begin "list")
 
 (import (prefix (algebraic-structures list semigroup) list:))
@@ -97,6 +104,13 @@
 (test 0 (begin sum:unit))
 
 (test-end "number.sum")
+
+(test-begin "string")
+
+(import (prefix (algebraic-structures string monoid) string:))
+(test "" (begin string:unit))
+
+(test-end "string")
 
 (test-begin "list")
 
