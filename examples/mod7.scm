@@ -7,7 +7,7 @@
 (module (mod7 semigroup) = (algebraic-structures semigroup)
   (import scheme
           (chicken module)
-          (chicken base))
+          (only (chicken base) assert))
   (export <>)
 
   (define (<> x y)
@@ -20,7 +20,7 @@
 (module (mod7 monoid) = (algebraic-structures monoid)
   (import scheme
           (chicken module)
-          (chicken base))
+          (only (mod7 semigroup)))
   (reexport (mod7 semigroup))
   (export unit)
 
@@ -28,9 +28,10 @@
 
 (module (mod7 group) = (algebraic-structures group)
   (import scheme
-          (chicken base)
+          (only (chicken base) assert)
           (chicken module)
-          matchable)
+          matchable
+          (only (mod7 monoid)))
   (reexport (mod7 monoid))
   (export inv)
 
@@ -47,5 +48,5 @@
 
 (module (mod7 fold) = ((algebraic-structures monoid fold) (mod7 monoid) (algebraic-structures list foldable)))
 
-(import (prefix (mod7 group) mod7:)
-        (prefix (mod7 fold) mod7:))
+;; (import (prefix (mod7 group) mod7:)
+;;         (prefix (mod7 fold) mod7:))

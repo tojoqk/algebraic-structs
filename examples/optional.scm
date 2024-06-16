@@ -40,7 +40,8 @@
   (import scheme
           (prefix (data optional) opt:)
           matchable
-          (chicken module))
+          (chicken module)
+          (only (data optional functor)))
   (reexport (data optional functor))
   (export pure map2)
 
@@ -59,7 +60,8 @@
   (import (except scheme map apply)
           (prefix (data optional) opt:)
           matchable
-          (chicken module))
+          (chicken module)
+          (only (data optional applicative)))
   (reexport (data optional applicative))
   (export >>=)
 

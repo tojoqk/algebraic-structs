@@ -32,7 +32,8 @@
 (module (data state applicative) = (algebraic-structures applicative)
   (import scheme
           matchable
-          (chicken module))
+          (chicken module)
+          (only (data state functor)))
   (reexport (data state functor))
   (export pure map2)
 
@@ -48,7 +49,8 @@
 (module (data state monad) = (algebraic-structures monad)
   (import (except scheme map apply)
           matchable
-          (chicken module))
+          (chicken module)
+          (only (data state applicative)))
   (reexport (data state applicative))
   (export >>=)
 

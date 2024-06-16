@@ -30,8 +30,7 @@ $ chicken-install
 
 (module (mod7 semigroup) = (algebraic-structures semigroup)
   (import scheme
-          (chicken module)
-          (chicken base))
+          (chicken module))
   (export <>)
 
   (define (<> x y)
@@ -44,7 +43,8 @@ $ chicken-install
 (module (mod7 monoid) = (algebraic-structures monoid)
   (import scheme
           (chicken module)
-          (chicken base))
+          (chicken base)
+          (only (mod7 semigroup)))
   (reexport (mod7 semigroup))
   (export unit)
 
@@ -54,7 +54,8 @@ $ chicken-install
   (import scheme
           (chicken base)
           (chicken module)
-          matchable)
+          matchable
+          (only (mod7 monoid)))
   (reexport (mod7 monoid))
   (export inv)
 
