@@ -2,7 +2,8 @@
   (import scheme
           (srfi 41)
           (only (chicken base) cute)
-          (chicken module))
+          (chicken module)
+          (only (algebraic-structures stream functor)))
   (export pure map2)
   (reexport (algebraic-structures stream functor))
 

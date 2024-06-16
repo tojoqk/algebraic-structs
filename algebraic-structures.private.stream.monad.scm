@@ -1,7 +1,8 @@
 (module (algebraic-structures private stream monad) (>>=)
   (import (except scheme map apply)
           (chicken module)
-          (srfi 41))
+          (srfi 41)
+          (only (algebraic-structures stream applicative)))
   (reexport (algebraic-structures stream applicative))
 
   (define-stream (stream-append-map f strm)

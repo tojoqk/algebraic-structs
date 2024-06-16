@@ -4,7 +4,8 @@
                   (fold srfi:fold)
                   (reduce srfi:reduce))
           (only (chicken base) assert)
-          (chicken module))
+          (chicken module)
+          (only (algebraic-structures list functor)))
   (export pure map2)
   (reexport (algebraic-structures list functor))
 

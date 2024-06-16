@@ -3,7 +3,8 @@
           (only (srfi 1) append! reverse!)
           (only (chicken base) assert cut)
           (only matchable match)
-          (chicken module))
+          (chicken module)
+          (only (algebraic-structures list functor)))
   (export pure map2)
   (reexport (algebraic-structures list functor))
 

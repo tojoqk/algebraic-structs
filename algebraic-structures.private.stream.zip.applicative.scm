@@ -1,7 +1,8 @@
 (module (algebraic-structures private stream zip applicative) ()
   (import scheme
           (srfi 41)
-          (chicken module))
+          (chicken module)
+          (only (algebraic-structures stream functor)))
   (export pure map2)
   (reexport (algebraic-structures stream functor))
 
