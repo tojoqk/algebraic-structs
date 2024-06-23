@@ -1,7 +1,7 @@
-(module (algebraic-structures private number sum) (<> unit inv)
+(module (algebraic-structures private number sum) (op unit inv)
   (import scheme)
 
-  (define (<> x y) (+ x y))
+  (define (op x y) (+ x y))
 
   (define unit 0)
 

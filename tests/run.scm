@@ -12,9 +12,9 @@
   (import scheme
           (chicken module)
           (chicken base))
-  (export <>)
+  (export op)
 
-  (define (<> x y)
+  (define (op x y)
     (assert (integer? x))
     (assert (integer? y))
     (assert (not (zero? x)))
@@ -23,13 +23,13 @@
 
 (import (prefix (mod7 semigroup) mod7:))
 
-(test 5 (mod7:<> 3 4))
+(test 5 (mod7:op 3 4))
 
 (test-begin "number.product")
 
 (import (prefix (algebraic-structures number product semigroup) product:))
 
-(test 12 (product:<> 3 4))
+(test 12 (product:op 3 4))
 
 (test-end "number.product")
 
@@ -37,35 +37,35 @@
 
 (import (prefix (algebraic-structures number sum semigroup) sum:))
 
-(test 7 (sum:<> 3 4))
+(test 7 (sum:op 3 4))
 
 (test-end "number.sum")
 
 (test-begin "string")
 
 (import (prefix (algebraic-structures string semigroup) string:))
-(test "abc" (string:<> "ab" "c"))
+(test "abc" (string:op "ab" "c"))
 
 (test-end "string")
 
 (test-begin "list")
 
 (import (prefix (algebraic-structures list semigroup) list:))
-(test '(a b c) (list:<> '(a b) '(c)))
+(test '(a b c) (list:op '(a b) '(c)))
 
 (test-end "list")
 
 (test-begin "vector")
 
 (import (prefix (algebraic-structures vector semigroup) vector:))
-(test #(a b c) (vector:<> #(a b) #(c)))
+(test #(a b c) (vector:op #(a b) #(c)))
 
 (test-end "vector")
 
 (test-begin "stream")
 
 (import (prefix (algebraic-structures stream semigroup) stream:))
-(test '(a b c) (stream->list (stream:<> (stream 'a 'b) (stream 'c))))
+(test '(a b c) (stream->list (stream:op (stream 'a 'b) (stream 'c))))
 
 (test-end "stream")
 
@@ -160,7 +160,7 @@
 (import (prefix (mod7 group) mod7:))
 
 (test (make-list 6 mod7:unit)
-      (map mod7:<>
+      (map mod7:op
            '(1 2 3 4 5 6)
            (map mod7:inv '(1 2 3 4 5 6))))
 

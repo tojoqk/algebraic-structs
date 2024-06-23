@@ -25,9 +25,9 @@ $ chicken-install
 (module (mod7 semigroup) = (algebraic-structures semigroup)
   (import scheme
           (chicken module))
-  (export <>)
+  (export op)
 
-  (define (<> x y)
+  (define (op x y)
     (assert (integer? x))
     (assert (integer? y))
     (assert (not (zero? x)))
@@ -73,7 +73,7 @@ $ chicken-install
 In REPL:
 
 ```
-> (map (cut mod7:pow 3 <>) '(0 1 2 3 4 5 6 7 8 9 10 11))
+> (map (cut mod7:pow 3 op) '(0 1 2 3 4 5 6 7 8 9 10 11))
 (1 3 2 6 4 5 1 3 2 6 4 5)
 > (mod7:fold '(1 2 3 4 5 6))
 6

@@ -1,6 +1,6 @@
-(functor ((algebraic-structures semigroup reduce) (S (<>)) (R (reduce))) (reduce)
+(functor ((algebraic-structures semigroup reduce) (S (op)) (R (reduce))) (reduce)
   (import scheme
-          (only S <>)
+          (only S op)
           (rename (only R reduce) (reduce reducible:reduce)))
 
-  (define (reduce xs) (reducible:reduce <> xs)))
+  (define (reduce xs) (reducible:reduce op xs)))

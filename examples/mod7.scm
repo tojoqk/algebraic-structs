@@ -8,9 +8,9 @@
   (import scheme
           (chicken module)
           (only (chicken base) assert))
-  (export <>)
+  (export op)
 
-  (define (<> x y)
+  (define (op x y)
     (assert (integer? x))
     (assert (integer? y))
     (assert (not (zero? x)))

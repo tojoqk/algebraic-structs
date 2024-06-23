@@ -1,10 +1,10 @@
-(module (algebraic-structures private stream) (<> unit fold reduce map1)
+(module (algebraic-structures private stream) (op unit fold reduce map1)
   (import scheme
           (srfi 41)
           (streams utils)
           (only (chicken base) assert))
 
-  (define (<> xs ys) (stream-append xs ys))
+  (define (op xs ys) (stream-append xs ys))
 
   (define unit stream-null)
 

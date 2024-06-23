@@ -1,6 +1,6 @@
-(functor ((algebraic-structures group) (M (<> unit inv)))
-    (<> unit inv pow)
-  (import (only M <> unit inv)
+(functor ((algebraic-structures group) (M (op unit inv)))
+    (op unit inv pow)
+  (import (only M op unit inv)
           scheme
           (chicken base))
 
@@ -13,4 +13,4 @@
           (if (= i 0)
               acc
               (loop (sub1 i)
-                    (<> acc x)))))))
+                    (op acc x)))))))

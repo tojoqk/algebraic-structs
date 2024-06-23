@@ -1,3 +1,3 @@
-(functor ((algebraic-structures monoid) (F (<> unit)))
-    (<> unit)
-  (import (only F <> unit)))
+(functor ((algebraic-structures monoid) (F (op unit)))
+    (op unit)
+  (import (only F op unit)))

@@ -1,10 +1,10 @@
-(module (algebraic-structures private vector) (<> unit fold reduce map1)
+(module (algebraic-structures private vector) (op unit fold reduce map1)
   (import (except scheme
                   vector-fill! vector->list list->vector)
           (only (chicken base) add1 assert)
           (srfi 133))
 
-  (define (<> xs ys) (vector-append xs ys))
+  (define (op xs ys) (vector-append xs ys))
 
   (define unit #())
 

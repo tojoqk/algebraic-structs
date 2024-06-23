@@ -1,11 +1,11 @@
-(module (algebraic-structures private list) (<> unit fold reduce map1)
+(module (algebraic-structures private list) (op unit fold reduce map1)
   (import scheme
           (rename (only (srfi 1) fold reduce)
                   (fold srfi:fold)
                   (reduce srfi:reduce))
           (only (chicken base) assert))
 
-  (define <> append)
+  (define op append)
 
   (define unit '())
 

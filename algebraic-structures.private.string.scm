@@ -1,6 +1,6 @@
-(module (algebraic-structures private string) (<> unit)
+(module (algebraic-structures private string) (op unit)
   (import scheme)
 
-  (define (<> x y) (string-append x y))
+  (define (op x y) (string-append x y))
 
   (define unit ""))

@@ -1,2 +1,2 @@
-(functor ((algebraic-structures semigroup) (S (<>))) (<>)
-  (import (only S <>)))
+(functor ((algebraic-structures semigroup) (S (op))) (op)
+  (import (only S op)))
