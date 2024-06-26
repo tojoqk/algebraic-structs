@@ -1,3 +1,12 @@
+# Public Archived
+
+This repository has been archived.
+
+The project has moved from GitHub. The new repository can be accessed at the following link:
+[https://git.tojo.tokyo/chicken/algebraic-structures.git/about/](https://git.tojo.tokyo/chicken/algebraic-structures.git/about/)
+
+
+
 # algebraic-structures
 
 Provides useful algebraic structures for programming using parametric modules in Chicken Scheme.
